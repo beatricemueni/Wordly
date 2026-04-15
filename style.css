@@ -1,0 +1,133 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(180deg, #fff4df, #f6e0b3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* FIX: prevents cutoff on small screens */
+}
+
+/* Container */
+.container {
+  width: 100%;
+  max-width: 420px; /* FIX: responsive instead of fixed width */
+  text-align: center;
+  padding: 30px;
+}
+
+/* Logo */
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+  color: #8b5e00;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+/* Title */
+h1 {
+  font-size: 34px;
+  color: #3b2a10;
+  margin: 10px 0;
+}
+
+/* Subtitle */
+.subtitle {
+  font-size: 14px;
+  color: #6b5a3a;
+  margin-bottom: 25px;
+}
+
+/* Search box */
+.search-box {
+  display: flex;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+.search-box input {
+  flex: 1;
+  border: none;
+  padding: 14px;
+  outline: none;
+  font-size: 14px;
+}
+
+.search-box button {
+  background: #d79a2b;
+  color: white;
+  border: none;
+  padding: 0 18px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s; /* UX improvement */
+}
+
+.search-box button:hover {
+  background: #c5881f;
+}
+
+/* RESULT BOX */
+.result {
+  margin-top: 20px;
+  text-align: left;
+}
+
+/* CARD (for JS output) */
+.card {
+  background: rgba(255,255,255,0.9);
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+/* Loading & Error states */
+.loading {
+  color: #555;
+  font-style: italic;
+  text-align: center;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Accessibility (hidden label) */
+.visually-hidden {
+  position: absolute;
+  left: -9999px;
+}
+
+/* Decoration */
+.books {
+  margin-top: 30px;
+  display: flex;
+  gap: 8px;
+  justify-content: flex-start;
+}
+
+.book {
+  width: 28px;
+  height: 40px;
+  border-radius: 4px;
+}
+
+.book1 { background: #d98c2b; }
+.book2 { background: #3f6db5; }
+.book3 { background: #f2c14e; }
+
+.pencil {
+  width: 6px;
+  height: 40px;
+  background: #caa26a;
+  transform: rotate(20deg);
+  border-radius: 3px;
+  margin-left: 10px;
+}
