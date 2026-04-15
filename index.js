@@ -7,14 +7,13 @@ form.addEventListener("submit", async (e) => {
 
   const word = input.value.trim();
 
-  // Empty input check
   if (!word) {
-    result.innerHTML = `<p class="error">⚠️ Please enter a word.</p>`;
+    result.innerHTML = `<p class="error">Please enter a word.</p>`;
     return;
   }
 
-  // Loading state
-  result.innerHTML = `<p class="loading">Loading... ⏳</p>`;
+  
+  result.innerHTML = `<p class="loading">Loading... </p>`;
 
   try {
     const response = await fetch(
@@ -27,7 +26,7 @@ form.addEventListener("submit", async (e) => {
 
     const data = await response.json();
 
-    // Extra safety check
+    
     if (!data || data.length === 0) {
       throw new Error("No data found");
     }
@@ -39,18 +38,17 @@ form.addEventListener("submit", async (e) => {
 
     const partOfSpeech = firstMeaning.partOfSpeech || "N/A";
 
-    // Multiple definitions (max 3)
     const definitionsHTML = firstMeaning.definitions
       ?.slice(0, 3)
       .map(def => `<li>${def.definition}</li>`)
       .join("") || "<li>No definitions found</li>";
 
-    // Example sentence
+
     const example =
       firstMeaning.definitions?.[0]?.example ||
       "No example available";
 
-    // Display result
+
     result.innerHTML = `
       <div class="card">
         <h3>${entry.word}</h3>
@@ -64,6 +62,6 @@ form.addEventListener("submit", async (e) => {
     `;
 
   } catch (error) {
-    result.innerHTML = `<p class="error">❌ Word not found. Try another word.</p>`;
+    result.innerHTML = `<p class="error"> Word not found. Try another word.</p>`;
   }
 });
