@@ -29,15 +29,12 @@ form.addEventListener("submit", async (e) => {
 
     const entry = data[0];
 
+    // 🔊 Phonetics + Audio
     const phonetics = entry.phonetics || [];
     const phoneticText = phonetics.find((p) => p.text)?.text || "";
 
     const rawAudio = phonetics.find((p) => p.audio)?.audio || "";
-    const audioSrc = rawAudio
-      ? rawAudio.startsWith("//")
-        ? "https:" + rawAudio
-        : rawAudio
-      : "";
+    const audioSrc = rawAudio ? rawAudio.startsWith("//") ? "https:" + rawAudio: rawAudio : "";
 
     
     const meanings = entry.meanings || [];
@@ -45,11 +42,14 @@ form.addEventListener("submit", async (e) => {
 
     const partOfSpeech = firstMeaning.partOfSpeech || "N/A";
 
-    const definitionsHTML =firstMeaning.definitions ?.slice(0, 3).map((def) => `<li>${def.definition}</li>`).join("") || "<li>No definitions found</li>";
+    const definitionsHTML =firstMeaning.definitions?.slice(0, 3).map((def) => `<li>${def.definition}</li>`).join("") || "<li>No definitions found</li>";
 
     const example =firstMeaning.definitions?.[0]?.example ||"No example available";
 
-    
+    const synonyms = firstMeaning.definitions?.[0]?.synonyms?.slice(0, 5).join(", ") ||"No synonyms available";
+
+    const antonyms =firstMeaning.definitions?.[0]?.antonyms?.slice(0, 5).join(", ") || "No antonyms available";
+
     result.innerHTML = `
       <div class="card">
         <h3>${entry.word}</h3>
@@ -68,6 +68,10 @@ form.addEventListener("submit", async (e) => {
         <ul>${definitionsHTML}</ul>
 
         <p><strong>Example:</strong> ${example}</p>
+
+        <p><strong>Synonyms:</strong> ${synonyms}</p>
+
+        <p><strong>Antonyms:</strong> ${antonyms}</p>
       </div>
     `;
   } catch (error) {
