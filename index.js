@@ -12,13 +12,10 @@ form.addEventListener("submit", async (e) => {
     return;
   }
 
-  
-  result.innerHTML = `<p class="loading">Loading... </p>`;
+  result.innerHTML = `<p class="loading">Loading...</p>`;
 
   try {
-    const response = await fetch(
-      `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`
-    );
+    const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
 
     if (!response.ok) {
       throw new Error("Word not found");
@@ -26,32 +23,45 @@ form.addEventListener("submit", async (e) => {
 
     const data = await response.json();
 
-    
     if (!data || data.length === 0) {
       throw new Error("No data found");
     }
 
     const entry = data[0];
 
+    const phonetics = entry.phonetics || [];
+    const phoneticText = phonetics.find((p) => p.text)?.text || "";
+
+    const rawAudio = phonetics.find((p) => p.audio)?.audio || "";
+    const audioSrc = rawAudio
+      ? rawAudio.startsWith("//")
+        ? "https:" + rawAudio
+        : rawAudio
+      : "";
+
+    
     const meanings = entry.meanings || [];
     const firstMeaning = meanings[0] || {};
 
     const partOfSpeech = firstMeaning.partOfSpeech || "N/A";
 
-    const definitionsHTML = firstMeaning.definitions
-      ?.slice(0, 3)
-      .map(def => `<li>${def.definition}</li>`)
-      .join("") || "<li>No definitions found</li>";
+    const definitionsHTML =firstMeaning.definitions ?.slice(0, 3).map((def) => `<li>${def.definition}</li>`).join("") || "<li>No definitions found</li>";
 
+    const example =firstMeaning.definitions?.[0]?.example ||"No example available";
 
-    const example =
-      firstMeaning.definitions?.[0]?.example ||
-      "No example available";
-
-
+    
     result.innerHTML = `
       <div class="card">
         <h3>${entry.word}</h3>
+
+        ${phoneticText ? `<p>${phoneticText}</p>` : ""}
+
+        ${
+          audioSrc
+            ? `<button onclick="new Audio('${audioSrc}').play()">🔊 Play Pronunciation</button>`
+            : "<p>No pronunciation audio available</p>"
+        }
+
         <p><strong>Part of Speech:</strong> ${partOfSpeech}</p>
 
         <p><strong>Definitions:</strong></p>
@@ -60,8 +70,7 @@ form.addEventListener("submit", async (e) => {
         <p><strong>Example:</strong> ${example}</p>
       </div>
     `;
-
   } catch (error) {
-    result.innerHTML = `<p class="error"> Word not found. Try another word.</p>`;
+    result.innerHTML = `<p class="error">Word not found. Try another word.</p>`;
   }
 });
